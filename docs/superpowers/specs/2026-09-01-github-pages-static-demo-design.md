@@ -89,13 +89,15 @@ senão de `api.live.ts`. Nenhum componente muda.
 ### 3. Build e caminho base
 
 `vite.config.ts` passa `base: '/estuda-facil/'` quando `mode === 'demo'`
-(GitHub Pages serve o projeto num subpath, não na raiz). Novo script no
-`frontend/package.json`:
+(GitHub Pages serve o projeto num subpath, não na raiz). Dois scripts novos
+no `frontend/package.json`, separados para que o CI nunca precise do
+primeiro (que só existe em máquinas com `materias/calculo-1/.estuda/`):
 ```
-"build:demo": "node scripts/build-demo-data.mjs && vite build --mode demo"
+"demo:data": "node scripts/build-demo-data.mjs",
+"build:demo": "tsc -b && vite build --mode demo"
 ```
 O modo `demo` do Vite injeta `VITE_DEMO_MODE=true` via um arquivo
-`.env.demo` (`VITE_DEMO_MODE=true`). Esse script assume que
+`.env.demo` (`VITE_DEMO_MODE=true`). `build:demo` assume que
 `frontend/public/demo-data/` já existe (commitado — ver seção 1); ele não
 tenta regerá-lo.
 
