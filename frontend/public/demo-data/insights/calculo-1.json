@@ -1,15 +1,10 @@
 {
-  "content": "## Pontos de atenção\n\n- **Limites e Continuidade**: Tópico sem tentativas e sem registro de desempenho. Trata-se de fundamento essencial do Cálculo — inclui limites laterais, indeterminação 0/0 e continuidade — e deve ser Prioritário antes de avançar para Derivadas ou Integrais.\n- **teste**: Tópico sem descrição e sem tentativas. Recomenda-se esclarecer seu conteúdo antes de incluí-lo na rotina de estudos.\n\n## Conexões entre tópicos\n\n- **Limites e Continuidade** é pré-requisito direto para Derivadas (que dependem de limites) e para Integrais (que dependem de continuidade). Estudar este tópico primeiro garante base sólida para todo o ciclo de Cálculo.\n\n## Sugestão de estudo\n\nComece por **Limites e Continuidade** — é a base para Derivadas e Integrais — e defina o escopo do tópico \"teste\" antes de avançar.\n",
+  "content": "## Pontos de atenção\n\n- **Limites e Continuidade**: 3 tentativas registradas, 0% de acerto — indica dificuldade real com o conteúdo. Trata-se de fundamento essencial do Cálculo — inclui limites laterais, indeterminação 0/0 e continuidade — e deve ser revisado com prioridade antes de avançar para Derivadas ou Integrais.\n\n## Conexões entre tópicos\n\n- **Limites e Continuidade** é pré-requisito direto para Derivadas (que dependem de limites) e para Integrais (que dependem de continuidade). Estudar este tópico primeiro garante base sólida para todo o ciclo de Cálculo.\n\n## Sugestão de estudo\n\nRevise **Limites e Continuidade** com atenção especial aos pontos de indeterminação — é a base para Derivadas e Integrais.\n",
   "maisEstudados": [
     {
       "id": "limites-e-continuidade",
       "nome": "Limites e Continuidade",
       "valor": 3
-    },
-    {
-      "id": "teste",
-      "nome": "teste",
-      "valor": 0
     }
   ],
   "maisMencionados": [
@@ -17,17 +12,12 @@
       "id": "limites-e-continuidade",
       "nome": "Limites e Continuidade",
       "valor": 1
-    },
-    {
-      "id": "teste",
-      "nome": "teste",
-      "valor": 0
     }
   ],
   "progress": {
     "totalQuestoes": 3,
     "acertoGeralPct": 0,
     "topicosDominados": 0,
-    "totalTopicos": 2
+    "totalTopicos": 1
   }
 }

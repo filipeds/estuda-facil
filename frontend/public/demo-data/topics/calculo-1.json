@@ -16,19 +16,5 @@
     "acertoPct": 0,
     "status": "warn",
     "statusLabel": "Requer atenção"
-  },
-  {
-    "id": "teste",
-    "nome": "teste",
-    "origem": "manual",
-    "descricao": "",
-    "arquivos": [],
-    "criadoEm": "2026-08-04T00:36:02.509Z",
-    "atualizadoEm": "2026-08-04T00:36:02.509Z",
-    "mencoes": 0,
-    "tentativas": 0,
-    "acertoPct": null,
-    "status": "idle",
-    "statusLabel": "Não iniciado"
   }
 ]
