@@ -1,0 +1,291 @@
+/* =========================================================
+   Design Tokens — "Liquid Glass" (Apple / macOS Sonoma / iOS 18)
+   Arquivo independente: não referencia nem altera styles.css ou
+   qualquer componente .tsx. Reutiliza o mesmo mecanismo de tema já
+   existente no app (App.tsx alterna document.documentElement
+   dataset.theme = "light" | "dark"), então os tokens abaixo já
+   respondem ao toggle de tema atual sem nenhuma mudança de lógica.
+   ========================================================= */
+
+:root {
+  /* ---------- Cor · modo claro (padrão) ---------- */
+  --color-bg: #f5f5f7;
+  --color-bg-elevated: #ffffff;
+  --color-surface-glass: rgba(255, 255, 255, 0.55);
+  --color-surface-glass-strong: rgba(255, 255, 255, 0.72);
+  --color-surface-glass-soft: rgba(255, 255, 255, 0.38);
+  --color-border-glass: rgba(255, 255, 255, 0.35);
+  --color-border-hairline: rgba(60, 60, 67, 0.12);
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #6e6e73;
+  --color-text-tertiary: rgba(60, 60, 67, 0.45);
+  --color-accent: #0071e3;
+  --color-accent-hover: #0077ed;
+  --color-accent-active: #005bb5;
+  --color-accent-soft: rgba(0, 113, 227, 0.12);
+  --color-success: #34c759;
+  --color-warning: #ff9500;
+  --color-danger: #ff3b30;
+  --color-success-soft: rgba(52, 199, 89, 0.14);
+  --color-warning-soft: rgba(255, 149, 0, 0.14);
+  --color-danger-soft: rgba(255, 59, 48, 0.14);
+
+  /* ---------- Blur ---------- */
+  --blur-sm: 20px;
+  --blur-md: 28px;
+  --blur-lg: 40px;
+
+  /* ---------- Raio (cantos contínuos, padrão Apple) ---------- */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+
+  /* ---------- Sombra (suave e difusa, nunca pesada) ---------- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 10px -2px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 12px 28px -10px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 28px 56px -18px rgba(0, 0, 0, 0.24), 0 6px 16px rgba(0, 0, 0, 0.08);
+  --shadow-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --shadow-focus-ring: 0 0 0 4px var(--color-accent-soft);
+
+  /* ---------- Espaçamento (generoso) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---------- Tipografia estilo San Francisco ---------- */
+  --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, "Roboto Mono", monospace;
+  --tracking-tight: -0.01em;
+  --tracking-wide: 0.04em;
+
+  /* ---------- Transição (curva de easing característica da Apple) ---------- */
+  --ease-apple: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast: 160ms var(--ease-apple);
+  --transition-base: 220ms var(--ease-apple);
+  --transition-slow: 320ms var(--ease-apple);
+
+  /* ---------- Camadas (z-index) ---------- */
+  --z-sidebar: 20;
+  --z-nav: 30;
+  --z-dropdown: 40;
+  --z-drawer: 50;
+  --z-modal: 60;
+  --z-tooltip: 70;
+}
+
+/* ---------- Cor · modo escuro (segue o SO) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0b0b0f;
+    --color-bg-elevated: #1c1c1e;
+    --color-surface-glass: rgba(44, 44, 48, 0.72);
+    --color-surface-glass-strong: rgba(58, 58, 62, 0.82);
+    --color-surface-glass-soft: rgba(36, 36, 40, 0.55);
+    --color-border-glass: rgba(255, 255, 255, 0.14);
+    --color-border-hairline: rgba(255, 255, 255, 0.12);
+    --color-text-primary: #f5f5f7;
+    --color-text-secondary: #a1a1a6;
+    --color-text-tertiary: rgba(235, 235, 245, 0.38);
+    --color-accent: #0a84ff;
+    --color-accent-hover: #3d9bff;
+    --color-accent-active: #0060c2;
+    --color-accent-soft: rgba(10, 132, 255, 0.16);
+    --color-success: #30d158;
+    --color-warning: #ff9f0a;
+    --color-danger: #ff453a;
+    --color-success-soft: rgba(48, 209, 88, 0.16);
+    --color-warning-soft: rgba(255, 159, 10, 0.16);
+    --color-danger-soft: rgba(255, 69, 58, 0.16);
+    --shadow-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    --shadow-md: 0 12px 28px -10px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 28px 56px -18px rgba(0, 0, 0, 0.55), 0 6px 16px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* ---------- Overrides explícitos para o toggle manual de tema ----------
+   O app já grava data-theme="dark"/"light" na tag <html> (App.tsx,
+   função toggleTheme) — reaproveitado aqui, sem novo mecanismo. */
+:root[data-theme="dark"] {
+  --color-bg: #0b0b0f;
+  --color-bg-elevated: #1c1c1e;
+  --color-surface-glass: rgba(44, 44, 48, 0.72);
+  --color-surface-glass-strong: rgba(58, 58, 62, 0.82);
+  --color-surface-glass-soft: rgba(36, 36, 40, 0.55);
+  --color-border-glass: rgba(255, 255, 255, 0.14);
+  --color-border-hairline: rgba(255, 255, 255, 0.12);
+  --color-text-primary: #f5f5f7;
+  --color-text-secondary: #a1a1a6;
+  --color-text-tertiary: rgba(235, 235, 245, 0.38);
+  --color-accent: #0a84ff;
+  --color-accent-hover: #3d9bff;
+  --color-accent-active: #0060c2;
+  --color-accent-soft: rgba(10, 132, 255, 0.16);
+  --color-success: #30d158;
+  --color-warning: #ff9f0a;
+  --color-danger: #ff453a;
+  --color-success-soft: rgba(48, 209, 88, 0.16);
+  --color-warning-soft: rgba(255, 159, 10, 0.16);
+  --color-danger-soft: rgba(255, 69, 58, 0.16);
+  --shadow-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --shadow-md: 0 12px 28px -10px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 28px 56px -18px rgba(0, 0, 0, 0.55), 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+:root[data-theme="light"] {
+  --color-bg: #f5f5f7;
+  --color-bg-elevated: #ffffff;
+  --color-surface-glass: rgba(255, 255, 255, 0.55);
+  --color-surface-glass-strong: rgba(255, 255, 255, 0.72);
+  --color-surface-glass-soft: rgba(255, 255, 255, 0.38);
+  --color-border-glass: rgba(255, 255, 255, 0.35);
+  --color-border-hairline: rgba(60, 60, 67, 0.12);
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #6e6e73;
+  --color-text-tertiary: rgba(60, 60, 67, 0.45);
+  --color-accent: #0071e3;
+  --color-accent-hover: #0077ed;
+  --color-accent-active: #005bb5;
+  --color-accent-soft: rgba(0, 113, 227, 0.12);
+  --color-success: #34c759;
+  --color-warning: #ff9500;
+  --color-danger: #ff3b30;
+  --color-success-soft: rgba(52, 199, 89, 0.14);
+  --color-warning-soft: rgba(255, 149, 0, 0.14);
+  --color-danger-soft: rgba(255, 59, 48, 0.14);
+  --shadow-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --shadow-md: 0 12px 28px -10px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 28px 56px -18px rgba(0, 0, 0, 0.24), 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================================
+   Fundo do app — gradiente sutil com profundidade
+   Uso: adicionar a classe "glass-app-bg" no elemento raiz (ex.: .app)
+   ========================================================= */
+.glass-app-bg {
+  background:
+    radial-gradient(1200px 600px at 15% -10%, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 60%),
+    radial-gradient(1000px 700px at 100% 15%, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent 55%),
+    var(--color-bg);
+  background-attachment: fixed;
+}
+
+/* =========================================================
+   Superfície de vidro base — todo componente translúcido parte daqui
+   ========================================================= */
+.glass-surface { position: relative; background: var(--color-surface-glass); backdrop-filter: blur(var(--blur-md)) saturate(1.4); -webkit-backdrop-filter: blur(var(--blur-md)) saturate(1.4); border: 1px solid var(--color-border-glass); border-radius: var(--radius-md); box-shadow: var(--shadow-md), var(--shadow-inner-highlight); transition: background var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), transform var(--transition-base); }
+.glass-surface--sm { backdrop-filter: blur(var(--blur-sm)) saturate(1.3); -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(1.3); box-shadow: var(--shadow-sm), var(--shadow-inner-highlight); }
+.glass-surface--lg { backdrop-filter: blur(var(--blur-lg)) saturate(1.5); -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(1.5); box-shadow: var(--shadow-lg), var(--shadow-inner-highlight); }
+.glass-surface--strong { background: var(--color-surface-glass-strong); }
+.glass-surface--soft { background: var(--color-surface-glass-soft); }
+
+/* Brilho especular sutil no topo — o "leve brilho interno" do Liquid Glass */
+.glass-surface::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, color-mix(in srgb, white 22%, transparent), transparent 40%); opacity: 0.6; }
+
+/* ---------- Cartões e painéis ---------- */
+.glass-card { padding: var(--space-6); border-radius: var(--radius-lg); }
+.glass-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg), var(--shadow-inner-highlight); }
+.glass-panel { padding: var(--space-5) var(--space-6); border-radius: var(--radius-md); }
+
+/* ---------- Navbar / header estilo macOS-iPadOS ---------- */
+.glass-nav { position: sticky; top: 0; z-index: var(--z-nav); border-radius: 0; border-left: none; border-right: none; border-top: none; }
+
+/* ---------- Sidebar translúcida ---------- */
+.glass-sidebar { border-radius: 0; border-top: none; border-bottom: none; border-left: none; z-index: var(--z-sidebar); }
+
+/* ---------- Dropdown / menu flutuante ---------- */
+.glass-dropdown { position: absolute; z-index: var(--z-dropdown); padding: var(--space-2); border-radius: var(--radius-md); }
+
+/* ---------- Modal ---------- */
+.glass-modal-backdrop { position: fixed; inset: 0; z-index: var(--z-modal); background: color-mix(in srgb, black 32%, transparent); backdrop-filter: blur(var(--blur-sm)); -webkit-backdrop-filter: blur(var(--blur-sm)); display: flex; align-items: center; justify-content: center; padding: var(--space-5); }
+.glass-modal { width: min(480px, 100%); border-radius: var(--radius-lg); background: var(--color-surface-glass-strong); backdrop-filter: blur(var(--blur-lg)) saturate(1.5); -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(1.5); border: 1px solid var(--color-border-glass); box-shadow: var(--shadow-lg), var(--shadow-inner-highlight); }
+
+/* ---------- Tabela translúcida ---------- */
+.glass-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: var(--radius-md); overflow: hidden; }
+.glass-table th, .glass-table td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border-hairline); text-align: left; }
+.glass-table tbody tr { transition: background var(--transition-fast); }
+.glass-table tbody tr:hover { background: color-mix(in srgb, var(--color-accent) 6%, transparent); }
+.glass-table tbody tr:last-child td { border-bottom: none; }
+
+/* ---------- Divisor sutil (com esmaecimento nas pontas) ---------- */
+.glass-divider { height: 1px; border: none; background: linear-gradient(90deg, transparent, var(--color-border-hairline) 20%, var(--color-border-hairline) 80%, transparent); }
+
+/* ---------- Botões glass ---------- */
+.glass-button { display: inline-flex; align-items: center; gap: var(--space-2); padding: 10px var(--space-5); border-radius: var(--radius-pill); font-family: var(--font-text); font-size: 0.875rem; font-weight: 600; cursor: pointer; border: 1px solid var(--color-border-glass); background: var(--color-surface-glass); color: var(--color-text-primary); backdrop-filter: blur(var(--blur-sm)); -webkit-backdrop-filter: blur(var(--blur-sm)); box-shadow: var(--shadow-sm), var(--shadow-inner-highlight); transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast); }
+.glass-button:hover { transform: translateY(-1px); box-shadow: var(--shadow-md), var(--shadow-inner-highlight); }
+.glass-button:active { transform: translateY(0); }
+.glass-button:disabled { opacity: 0.5; cursor: default; transform: none; }
+.glass-button:focus-visible { outline: none; box-shadow: var(--shadow-focus-ring), var(--shadow-inner-highlight); }
+
+.glass-button--primary { color: #ffffff; background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 92%, white 8%), var(--color-accent)); border-color: color-mix(in srgb, var(--color-accent) 60%, transparent); }
+.glass-button--primary:hover { background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent-hover) 92%, white 8%), var(--color-accent-hover)); }
+.glass-button--primary:active { background: var(--color-accent-active); }
+
+.glass-button--secondary { background: var(--color-surface-glass-soft); color: var(--color-text-secondary); }
+
+/* ---------- Segmented control (abas) ---------- */
+.glass-tabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--radius-pill); background: var(--color-surface-glass-soft); border: 1px solid var(--color-border-glass); backdrop-filter: blur(var(--blur-sm)); -webkit-backdrop-filter: blur(var(--blur-sm)); }
+.glass-tab { border: none; background: transparent; padding: 7px var(--space-4); border-radius: var(--radius-pill); font-size: 0.8125rem; font-weight: 600; color: var(--color-text-secondary); cursor: pointer; transition: background var(--transition-fast), color var(--transition-fast); }
+.glass-tab[aria-selected="true"] { background: var(--color-surface-glass-strong); color: var(--color-text-primary); box-shadow: var(--shadow-xs); }
+
+/* ---------- Chip / status badge ---------- */
+.glass-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: var(--radius-pill); font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-wide); backdrop-filter: blur(var(--blur-sm)); -webkit-backdrop-filter: blur(var(--blur-sm)); }
+.glass-chip--accent { background: var(--color-accent-soft); color: var(--color-accent); }
+.glass-chip--success { background: var(--color-success-soft); color: var(--color-success); }
+.glass-chip--warning { background: var(--color-warning-soft); color: var(--color-warning); }
+.glass-chip--danger { background: var(--color-danger-soft); color: var(--color-danger); }
+
+/* ---------- Inputs glass ---------- */
+.glass-input, .glass-textarea, .glass-select { width: 100%; padding: 10px var(--space-4); font-family: var(--font-text); font-size: 0.875rem; color: var(--color-text-primary); background: var(--color-surface-glass-soft); border: 1px solid var(--color-border-glass); border-radius: var(--radius-sm); backdrop-filter: blur(var(--blur-sm)); -webkit-backdrop-filter: blur(var(--blur-sm)); transition: background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast); }
+.glass-textarea { resize: vertical; min-height: 90px; }
+.glass-input::placeholder, .glass-textarea::placeholder { color: var(--color-text-tertiary); }
+.glass-input:focus, .glass-textarea:focus, .glass-select:focus { outline: none; background: var(--color-surface-glass-strong); border-color: color-mix(in srgb, var(--color-accent) 55%, transparent); box-shadow: var(--shadow-focus-ring); }
+
+/* ---------- Scrollbar discreta (WebKit) ---------- */
+.glass-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.glass-scroll::-webkit-scrollbar-thumb { background: var(--color-border-hairline); border-radius: var(--radius-pill); }
+.glass-scroll::-webkit-scrollbar-track { background: transparent; }
+
+/* =========================================================
+   Acessibilidade e compatibilidade
+   ========================================================= */
+
+/* Sistemas sem suporte a backdrop-filter (ex.: Firefox antigo) caem para
+   uma superfície sólida semi-opaca — preserva contraste e legibilidade. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-surface, .glass-modal, .glass-nav, .glass-sidebar, .glass-dropdown,
+  .glass-button, .glass-tabs, .glass-input, .glass-textarea, .glass-select {
+    background: var(--color-bg-elevated);
+  }
+}
+
+/* Preferência de SO por menos transparência: reduz translucidez e blur
+   mantendo a mesma hierarquia visual, sem quebrar contraste. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --color-surface-glass: var(--color-bg-elevated);
+    --color-surface-glass-strong: var(--color-bg-elevated);
+    --color-surface-glass-soft: var(--color-bg-elevated);
+    --blur-sm: 0px;
+    --blur-md: 0px;
+    --blur-lg: 0px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-card, .glass-button, .glass-tab, .glass-table tbody tr {
+    transition: none;
+  }
+  .glass-card:hover, .glass-button:hover {
+    transform: none;
+  }
+}
