@@ -1,3 +1,5 @@
+import { DEMO_MODE } from "../demoMode";
+
 export type TabId = "dashboard" | "resumo" | "quiz" | "insights" | "chat";
 
 interface Props {
@@ -70,7 +72,12 @@ export default function StageHeader({
         <button className="icon-btn" title="Alternar tema" aria-label="Alternar tema" onClick={onThemeToggle}>
           ◐
         </button>
-        <button className="btn btn-primary" onClick={onUpdateClick} disabled={generating}>
+        <button
+          className="btn btn-primary"
+          onClick={onUpdateClick}
+          disabled={generating || DEMO_MODE}
+          title={DEMO_MODE ? "Indisponível na demo — requer o backend local." : undefined}
+        >
           {generating ? "Atualizando..." : "Atualizar matéria"}
         </button>
       </div>
