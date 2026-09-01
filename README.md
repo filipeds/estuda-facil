@@ -5,6 +5,26 @@ atividades e anotações, e a IA (via [opencode](https://opencode.ai), rodando l
 organiza tudo em tópicos, gera resumos, quizzes e insights — sob demanda, quando você
 clicar em "Atualizar matéria".
 
+## Demo pública
+
+Uma versão somente-leitura (exceto o quiz, que funciona de verdade no navegador)
+roda em <https://filipeds.github.io/estuda-facil/>, publicada a partir da
+branch `example/calculo-1` sempre que ela recebe um push. Não há backend: os
+dados vêm de JSON estático gerado localmente. "Atualizar matéria", criar
+tópico e salvar anotação ficam desabilitados, com uma mensagem explicando o
+motivo.
+
+Para atualizar a demo depois de mudar o conteúdo de `materias/calculo-1`:
+
+```
+git checkout example/calculo-1
+git merge main          # traz mudanças de código/config feitas em main
+cd frontend && node scripts/build-demo-data.mjs && cd ..
+git add frontend/public/demo-data
+git commit -m "content: refresh calculo-1 demo data"
+git push origin example/calculo-1   # dispara o deploy
+```
+
 ## Estrutura
 
 ```

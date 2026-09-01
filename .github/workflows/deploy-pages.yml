@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -23,7 +23,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
       - run: npm ci
+      - run: test -f frontend/public/demo-data/subjects.json
       - run: npm run build:demo -w frontend
       - uses: actions/upload-pages-artifact@v3
         with:
