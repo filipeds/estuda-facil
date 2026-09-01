@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
+import { DEMO_MODE } from "../demoMode";
 import type { NoteEntry, Topic } from "../types";
 
 interface Props {
@@ -93,13 +94,20 @@ export default function NotesDrawer({ subject, topics, defaultTopicId }: Props) 
         <div className="notes-compose">
           <textarea
             className="notes-textarea"
-            placeholder="Escreva algo enquanto estuda este tópico…"
+            placeholder={
+              DEMO_MODE
+                ? "Indisponível na demo estática — requer o backend local."
+                : "Escreva algo enquanto estuda este tópico…"
+            }
             value={text}
             onChange={(e) => setText(e.target.value)}
+            disabled={DEMO_MODE}
           />
           <div className="notes-compose-actions">
-            <span className="notes-hint">Fica salvo mesmo trocando de aba</span>
-            <button className="btn btn-primary" onClick={handleSave} disabled={!text.trim() || saving}>
+            <span className="notes-hint">
+              {DEMO_MODE ? "Anotações exigem o backend local." : "Fica salvo mesmo trocando de aba"}
+            </span>
+            <button className="btn btn-primary" onClick={handleSave} disabled={DEMO_MODE || !text.trim() || saving}>
               {savedFlash ? "Salvo" : "Salvar anotação"}
             </button>
           </div>
