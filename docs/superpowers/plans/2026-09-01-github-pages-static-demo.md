@@ -795,6 +795,11 @@ git checkout example/calculo-1
 git merge main --ff-only
 ```
 
+> **Nota pós-implementação:** na prática isso nunca é um fast-forward —
+> `example/calculo-1` tem um commit próprio (`content: matéria de exemplo`)
+> que `main` nunca teve, então nenhuma branch é ancestral da outra. Use
+> `git merge main --no-ff` (mesmo resultado, sem conflitos esperados).
+
 Expected: fast-forward merge succeeds (per Global Constraints, `example/calculo-1` has only ever had one commit on top of the `main` history this plan built on).
 
 - [ ] **Step 2: Generate the demo data on this branch**
