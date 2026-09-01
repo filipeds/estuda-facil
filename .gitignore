@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+*.log
+**/tsconfig.tsbuildinfo
+
+# Apenas a matéria de exemplo (calculo-1) é versionada; matérias reais de
+# estudo e a config local do vault Obsidian (materias/.obsidian/) ficam de fora.
+materias/*
+!materias/calculo-1/
+materias/calculo-1/.estuda/
+!materias/calculo-1/.estuda/.gitkeep
