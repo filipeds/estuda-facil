@@ -10,6 +10,7 @@ import type {
   SubjectSummary,
   Topic,
 } from "./types";
+import type { ApiClient } from "./apiClient";
 
 const BASE_URL = import.meta.env.VITE_API_BASE ?? "http://localhost:3333";
 
@@ -25,7 +26,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export const api = {
+export const api: ApiClient = {
   listSubjects: () => request<SubjectSummary[]>("/api/subjects"),
 
   listTopics: (subject: string) => request<Topic[]>(`/api/subjects/${subject}/topics`),
