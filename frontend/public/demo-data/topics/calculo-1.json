@@ -1,0 +1,34 @@
+[
+  {
+    "id": "limites-e-continuidade",
+    "nome": "Limites e Continuidade",
+    "origem": "manual",
+    "descricao": "Limites laterais, indeterminação 0/0, limites no infinito, continuidade de funções e propriedades operatórias de limites.",
+    "arquivos": [
+      "aulas/aula-01-limites.md",
+      "atividades/lista-01.md",
+      "anotacoes/limites-e-continuidade.md"
+    ],
+    "criadoEm": "2026-08-04T00:23:20.451Z",
+    "atualizadoEm": "2026-08-07T23:05:02.873Z",
+    "mencoes": 1,
+    "tentativas": 3,
+    "acertoPct": 0,
+    "status": "warn",
+    "statusLabel": "Requer atenção"
+  },
+  {
+    "id": "teste",
+    "nome": "teste",
+    "origem": "manual",
+    "descricao": "",
+    "arquivos": [],
+    "criadoEm": "2026-08-04T00:36:02.509Z",
+    "atualizadoEm": "2026-08-04T00:36:02.509Z",
+    "mencoes": 0,
+    "tentativas": 0,
+    "acertoPct": null,
+    "status": "idle",
+    "statusLabel": "Não iniciado"
+  }
+]

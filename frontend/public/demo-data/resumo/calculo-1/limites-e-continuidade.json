@@ -1,0 +1,26 @@
+{
+  "topic": {
+    "id": "limites-e-continuidade",
+    "nome": "Limites e Continuidade",
+    "origem": "manual",
+    "descricao": "Limites laterais, indeterminação 0/0, limites no infinito, continuidade de funções e propriedades operatórias de limites.",
+    "arquivos": [
+      "aulas/aula-01-limites.md",
+      "atividades/lista-01.md",
+      "anotacoes/limites-e-continuidade.md"
+    ],
+    "criadoEm": "2026-08-04T00:23:20.451Z",
+    "atualizadoEm": "2026-08-07T23:05:02.873Z",
+    "mencoes": 1,
+    "tentativas": 3,
+    "acertoPct": 0,
+    "status": "warn",
+    "statusLabel": "Requer atenção"
+  },
+  "content": "## Introdução aos Limites\n\nO limite de uma função descreve o valor que f(x) se aproxima quando x tende a um determinado ponto, sem necessariamente ser o valor da função naquele ponto. É um conceito fundamental para entender continuidade e derivadas.\n\n## Definição e Notação\n\nNotação: lim(x→a) f(x) = L significa que, à medida que x se aproxima de a (mas não igual a a), f(x) se aproxima de L.\n\n**Exemplo clássico:** f(x) = (x² - 1)/(x - 1) não está definida em x = 1, mas lim(x→1) f(x) = 2, pois f(x) = x + 1 para x ≠ 1.\n\n## Limites Laterais\n\n- **Pela esquerda:** x → a⁻\n- **Pela direita:** x → a⁺\n\n> O limite lim(x→a) f(x) só existe se os limites laterais existirem e forem iguais. Caso contrário, o limite não existe nesse ponto.\n\nIsso é essencial em funções definidas por partes, onde é obrigatório calcular ambos os lados.\n\n## Propriedades Operatórias\n\nSe lim(x→a) f(x) e lim(x→a) g(x) existem, então:\n\n- lim (f + g) = lim f + lim g\n- lim (f · g) = lim f · lim g\n- lim (f / g) = lim f / lim g (desde que lim g ≠ 0)\n\n## Lidando com Indeterminações\n\n> Em indeterminações do tipo 0/0, o primeiro passo é sempre tentar fatorar ou racionalizar a expressão antes de aplicar as propriedades de limites.\n\n- **Fatoração:** Use quando o numerador e denominador têm fatores comuns.\n- **Racionalização:** Use quando há radicais (multiply by conjugate).\n\n## Limites no Infinito\n\nPara funções racionais, o comportamento depende do grau do numerador e denominador:\n\n- **Grau do numerador < grau do denominador:** limite é 0\n- **Grau do numerador = grau do denominador:** limite é a razão dos coeficientes líderes\n- **Grau do numerador > grau do denominador:** limite é infinito (não existe)\n\n---\n\nFoque em calcular limites laterais em funções por partes, resolver indeterminações 0/0 e avaliar limites no infinito — esses são os temas mais frequentes em provas.\n\n---\n*Gerado por IA a partir dos arquivos da matéria. Última atualização: 07/08/2026.*\n",
+  "sources": [
+    "aulas/aula-01-limites.md",
+    "atividades/lista-01.md",
+    "anotacoes/limites-e-continuidade.md"
+  ]
+}

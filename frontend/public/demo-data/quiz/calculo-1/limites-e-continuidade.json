@@ -1,0 +1,146 @@
+[
+  {
+    "id": "q1",
+    "pergunta": "Segundo a definição intuitiva, o que descreve o limite de uma função f(x) quando x se aproxima de um valor 'a'?",
+    "opcoes": [
+      {
+        "id": "a",
+        "texto": "O valor exato de f em x = a"
+      },
+      {
+        "id": "b",
+        "texto": "O comportamento de f perto de a, não necessariamente o valor de f em a"
+      },
+      {
+        "id": "c",
+        "texto": "O valor máximo que f pode atingir"
+      },
+      {
+        "id": "d",
+        "texto": "A derivada de f no ponto a"
+      }
+    ],
+    "respostaCorreta": "b",
+    "explicacao": "O limite descreve o comportamento da função quando x se aproxima de a, e não o valor da função em a. A função pode até não estar definida em a, como no exemplo f(x) = (x² - 1)/(x - 1) em x = 1."
+  },
+  {
+    "id": "q2",
+    "pergunta": "Para que o limite lim(x→a) f(x) exista, é necessário que:",
+    "opcoes": [
+      {
+        "id": "a",
+        "texto": "A função esteja definida em todo o intervalo ao redor de a"
+      },
+      {
+        "id": "b",
+        "texto": "Os limites laterais existam e sejam diferentes"
+      },
+      {
+        "id": "c",
+        "texto": "Os limites laterais existam e sejam iguais"
+      },
+      {
+        "id": "d",
+        "texto": "A função seja contínua apenas pela direita"
+      }
+    ],
+    "respostaCorreta": "c",
+    "explicacao": "O limite existe quando os limites laterais (pela esquerda e pela direita) existem e são iguais. Se forem diferentes, o limite não existe nesse ponto."
+  },
+  {
+    "id": "q3",
+    "pergunta": "Ao encontrar uma indeterminação do tipo 0/0 ao calcular um limite, qual é o primeiro passo recomendado?",
+    "opcoes": [
+      {
+        "id": "a",
+        "texto": "Aplicar a regra de L'Hôpital imediatamente"
+      },
+      {
+        "id": "b",
+        "texto": "Tentar fatorar ou racionalizar a expressão"
+      },
+      {
+        "id": "c",
+        "texto": "Declarar que o limite não existe"
+      },
+      {
+        "id": "d",
+        "texto": "Substituir o valor diretamente na função"
+      }
+    ],
+    "respostaCorreta": "b",
+    "explicacao": "Quando surge uma indeterminação 0/0, o primeiro passo é tentar fatorar ou racionalizar a expressão antes de aplicar as propriedades operatórias de limites."
+  },
+  {
+    "id": "q4",
+    "pergunta": "Se lim(x→a) f(x) = 3 e lim(x→a) g(x) = 2, qual é o valor de lim(x→a) [f(x) · g(x)]?",
+    "opcoes": [
+      {
+        "id": "a",
+        "texto": "5"
+      },
+      {
+        "id": "b",
+        "texto": "6"
+      },
+      {
+        "id": "c",
+        "texto": "1"
+      },
+      {
+        "id": "d",
+        "texto": "3/2"
+      }
+    ],
+    "respostaCorreta": "b",
+    "explicacao": "Pela propriedade operatória, lim(f · g) = lim f · lim g = 3 · 2 = 6."
+  },
+  {
+    "id": "q5",
+    "pergunta": "Para calcular limites no infinito de funções racionais, devemos comparar:",
+    "opcoes": [
+      {
+        "id": "a",
+        "texto": "O numerador e o denominador em x = 0"
+      },
+      {
+        "id": "b",
+        "texto": "O grau do numerador com o grau do denominador"
+      },
+      {
+        "id": "c",
+        "texto": "Os coeficientes angulares das retas"
+      },
+      {
+        "id": "d",
+        "texto": "O número de raízes reais da função"
+      }
+    ],
+    "respostaCorreta": "b",
+    "explicacao": "Para funções racionais, o comportamento no infinito é determinado comparando o grau do numerador com o grau do denominador, o que define a assíntota horizontal."
+  },
+  {
+    "id": "q6",
+    "pergunta": "Calcule lim(x→2) (x² - 4)/(x - 2).",
+    "opcoes": [
+      {
+        "id": "a",
+        "texto": "0"
+      },
+      {
+        "id": "b",
+        "texto": "2"
+      },
+      {
+        "id": "c",
+        "texto": "4"
+      },
+      {
+        "id": "d",
+        "texto": "O limite não existe"
+      }
+    ],
+    "respostaCorreta": "c",
+    "explicacao": "Fatorando o numerador: (x² - 4)/(x - 2) = (x + 2)(x - 2)/(x - 2) = x + 2 (para x ≠ 2). Logo, lim(x→2) (x + 2) = 4."
+  }
+]
