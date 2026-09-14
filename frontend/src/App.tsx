@@ -69,8 +69,10 @@ export default function App() {
     streamGenerate(
       activeSubjectId,
       (event) => setProgressLog((prev) => [...prev, event]),
-      (updatedTopics) => {
-        setTopics(updatedTopics);
+      () => {
+        // The SSE payload's topics lack the quiz-stats fields (tentativas/acertoPct/status/
+        // statusLabel) that GET /topics attaches via withStats() — refetch instead of trusting it.
+        api.listTopics(activeSubjectId).then(setTopics);
         setGenerating(false);
         refreshSubjects();
       },
@@ -117,7 +119,7 @@ export default function App() {
               generating={generating}
             />
 
-            {(generating || progressLog.length > 0 || generateError) && (
+            {(generating || generateError) && (
               <div className={`progress-log${generateError ? " error" : ""}`}>
                 {progressLog.map((e, i) => (
                   <div key={i}>
