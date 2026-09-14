@@ -1,17 +1,20 @@
 #!/usr/bin/env node
 // frontend/scripts/build-demo-data.mjs
 //
-// Local-only tool: reads the already-generated content for the `calculo-1`
-// example subject and writes the static JSON that frontend/src/api.static.ts
-// fetches at runtime. Never run this in CI — materias/calculo-1/.estuda/ is
-// git-ignored and only exists on a machine that has run the app for real.
+// Local-only tool: reads the already-generated content for a subject and
+// writes the static JSON that frontend/src/api.static.ts fetches at runtime.
+// Never run this in CI — materias/<subject>/.estuda/ is git-ignored and only
+// exists on a machine that has run the app for real.
+//
+// Usage: node scripts/build-demo-data.mjs [subject-id]
+// Defaults to "calculo-1" (the public GitHub Pages demo subject).
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
-const SUBJECT_ID = "calculo-1";
+const SUBJECT_ID = process.argv[2] ?? "calculo-1";
 const SUBJECT_DIR = path.join(REPO_ROOT, "materias", SUBJECT_ID);
 const ESTUDA_DIR = path.join(SUBJECT_DIR, ".estuda");
 const GENERATED_DIR = path.join(ESTUDA_DIR, "generated");
