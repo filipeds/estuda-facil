@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
-import { askOpencode, extractJson } from "./opencodeClient.js";
+import { askOpencode, extractJsonArray, withRetry } from "./opencodeClient.js";
 import { extractPdfText } from "./pdfExtractor.js";
 import { subjectDir } from "./paths.js";
 import { readTopics, writeTopics, writeResumo, writeQuiz, writeInsights, readQuizHistory } from "./storage.js";
@@ -9,6 +9,9 @@ import { slugify } from "./paths.js";
 import type { Topic, QuizQuestion, QuizAttempt } from "../types/index.js";
 
 const MAX_CHARS_PER_FILE = 15000;
+// The free/small models this app can fall back to sometimes return malformed JSON or leak
+// tool-call syntax as text; retrying the same prompt a couple more times usually succeeds.
+const AI_JSON_RETRY_ATTEMPTS = 3;
 
 export type ProgressFn = (step: string, detail?: string) => void;
 
@@ -52,6 +55,73 @@ interface TopicSuggestion {
 }
 
 /**
+ * Validates and normalizes the AI's raw topic-array response. The free/small models this app
+ * can fall back to sometimes ignore the requested schema entirely (e.g. returning a numeric
+ * `id` and a `titulo`/`subtopicos` shape instead of `id`/`nome`/`descricao`/`arquivos`), which
+ * used to crash later in slugify() with a bare "text.toLowerCase is not a function". Optional
+ * fields are defaulted; "nome" is the one thing every topic must have, so its absence throws —
+ * the caller retries the whole AI call on that error rather than working with a nonsense topic.
+ */
+export function parseTopicSuggestions(items: unknown[]): Array<TopicSuggestion & { origem?: string }> {
+  return items.map((item, i) => {
+    if (typeof item !== "object" || item === null) {
+      throw new Error(`Tópico #${i + 1} da resposta da IA não é um objeto (formato inesperado).`);
+    }
+    const obj = item as Record<string, unknown>;
+    if (typeof obj.nome !== "string" || !obj.nome.trim()) {
+      throw new Error(`Tópico #${i + 1} da resposta da IA não tem um "nome" válido (formato inesperado).`);
+    }
+    return {
+      id: typeof obj.id === "string" ? obj.id : undefined,
+      nome: obj.nome,
+      descricao: typeof obj.descricao === "string" ? obj.descricao : "",
+      arquivos: Array.isArray(obj.arquivos) ? obj.arquivos.filter((f): f is string => typeof f === "string") : [],
+      origem: obj.origem === "manual" || obj.origem === "ia" ? obj.origem : undefined,
+    };
+  });
+}
+
+/**
+ * Same idea as parseTopicSuggestions, for quiz questions: defaults optional fields, but requires
+ * "pergunta" and a non-empty "opcoes" array with string id/texto pairs, since a quiz question
+ * missing those isn't usable — better to retry the AI call than store a broken question.
+ */
+export function parseQuizQuestions(items: unknown[]): QuizQuestion[] {
+  return items.map((item, i) => {
+    if (typeof item !== "object" || item === null) {
+      throw new Error(`Questão #${i + 1} da resposta da IA não é um objeto (formato inesperado).`);
+    }
+    const obj = item as Record<string, unknown>;
+    if (typeof obj.pergunta !== "string" || !obj.pergunta.trim()) {
+      throw new Error(`Questão #${i + 1} da resposta da IA não tem uma "pergunta" válida (formato inesperado).`);
+    }
+    if (!Array.isArray(obj.opcoes) || obj.opcoes.length === 0) {
+      throw new Error(`Questão #${i + 1} da resposta da IA não tem "opcoes" válidas (formato inesperado).`);
+    }
+    const opcoes = obj.opcoes.map((o, j) => {
+      if (typeof o !== "object" || o === null) {
+        throw new Error(`Opção #${j + 1} da questão #${i + 1} da resposta da IA não é um objeto (formato inesperado).`);
+      }
+      const opt = o as Record<string, unknown>;
+      if (typeof opt.id !== "string" || typeof opt.texto !== "string") {
+        throw new Error(`Opção #${j + 1} da questão #${i + 1} da resposta da IA está com formato inesperado.`);
+      }
+      return { id: opt.id, texto: opt.texto };
+    });
+    if (typeof obj.respostaCorreta !== "string") {
+      throw new Error(`Questão #${i + 1} da resposta da IA não tem "respostaCorreta" válida (formato inesperado).`);
+    }
+    return {
+      id: typeof obj.id === "string" ? obj.id : `q${i + 1}`,
+      pergunta: obj.pergunta,
+      opcoes,
+      respostaCorreta: obj.respostaCorreta,
+      explicacao: typeof obj.explicacao === "string" ? obj.explicacao : "",
+    };
+  });
+}
+
+/**
  * Asks the AI to reconcile the existing topic tree against new/changed source content.
  * Manual topics are never sent for deletion by the model and are force-preserved here.
  */
@@ -92,8 +162,10 @@ Regras:
 Responda apenas com um bloco \`\`\`json contendo um array de objetos no formato:
 [{ "id": "slug-do-topico", "nome": "...", "origem": "manual" | "ia", "descricao": "...", "arquivos": ["aulas/arquivo.md"] }]`;
 
-  const response = await askOpencode(subjectId, "topicos", system, prompt);
-  const suggested = extractJson<Array<TopicSuggestion & { origem?: string }>>(response);
+  const suggested = await withRetry(AI_JSON_RETRY_ATTEMPTS, async () => {
+    const response = await askOpencode(subjectId, "topicos", system, prompt);
+    return parseTopicSuggestions(extractJsonArray<unknown>(response));
+  });
 
   const manualById = new Map(existingTopics.filter((t) => t.origem === "manual").map((t) => [t.id, t]));
   const existingById = new Map(existingTopics.map((t) => [t.id, t]));
@@ -182,8 +254,10 @@ Responda apenas com um bloco \`\`\`json no formato:
   "explicacao": "..."
 }]`;
 
-  const response = await askOpencode(subjectId, `quiz: ${topic.nome}`, system, prompt);
-  return extractJson<QuizQuestion[]>(response);
+  return withRetry(AI_JSON_RETRY_ATTEMPTS, async () => {
+    const response = await askOpencode(subjectId, `quiz: ${topic.nome}`, system, prompt);
+    return parseQuizQuestions(extractJsonArray<unknown>(response));
+  });
 }
 
 export function computeTopicStats(topics: Topic[], attempts: QuizAttempt[]) {
