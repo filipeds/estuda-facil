@@ -44,6 +44,9 @@ export default function StageHeader({
   onUpdateClick,
   generating,
 }: Props) {
+  // The "Chat IA" tab shows the log of opencode calls, which only exist with a real
+  // backend — in demo mode (no backend) it's always empty, so hide it entirely.
+  const visibleTabs = DEMO_MODE ? TABS.filter((tab) => tab.id !== "chat") : TABS;
   return (
     <div className="stage-header">
       <div className="stage-heading">
@@ -54,7 +57,7 @@ export default function StageHeader({
       </div>
       <div className="stage-actions">
         <div className="tabs" role="tablist" aria-label="Visualizações da matéria">
-          {TABS.map((tab) => (
+          {visibleTabs.map((tab) => (
             <button
               key={tab.id}
               className="tab"
