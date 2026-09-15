@@ -140,7 +140,13 @@ export default function App() {
               />
             )}
             {activeTab === "resumo" && <Resumo subject={activeSubject.id} topic={activeTopic} />}
-            {activeTab === "quiz" && <Quiz subject={activeSubject.id} topic={activeTopic} />}
+            {activeTab === "quiz" && (
+              <Quiz
+                subject={activeSubject.id}
+                topic={activeTopic}
+                onSessionComplete={() => api.listTopics(activeSubject.id).then(setTopics)}
+              />
+            )}
             {activeTab === "insights" && <Insights subject={activeSubject.id} />}
             {activeTab === "chat" && <OpencodeChat subject={activeSubject.id} />}
           </>

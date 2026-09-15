@@ -6,6 +6,7 @@ import type {
   QuizAttemptResult,
   QuizQuestion,
   ResumoResponse,
+  ReviewSessionResult,
   SubjectSummary,
   Topic,
 } from "./types";
@@ -22,6 +23,7 @@ export interface ApiClient {
     questionId: string,
     selectedOptionId: string,
   ): Promise<QuizAttemptResult>;
+  completeReviewSession(subject: string, topicId: string): Promise<ReviewSessionResult>;
   getInsights(subject: string): Promise<InsightsResponse>;
   getNotes(subject: string, topicId: string): Promise<NoteEntry[]>;
   addNote(subject: string, topicId: string, body: string): Promise<NoteEntry>;

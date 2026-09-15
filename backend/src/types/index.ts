@@ -58,6 +58,16 @@ export interface QuizHistory {
   attempts: QuizAttempt[];
 }
 
+export interface ReviewEntry {
+  nivel: number;
+  proximaRevisaoEm: string;
+  ultimaSessaoEm: string;
+}
+
+export interface ReviewSchedule {
+  entries: Record<string, ReviewEntry>;
+}
+
 export interface NoteEntry {
   time: string;
   body: string;

@@ -7,11 +7,12 @@ import {
   quizPath,
   insightsPath,
   quizHistoryPath,
+  reviewSchedulePath,
   generatedDir,
   resumosDir,
   quizzesDir,
 } from "./paths.js";
-import type { Topic, QuizQuestion, QuizAttempt, QuizHistory } from "../types/index.js";
+import type { Topic, QuizQuestion, QuizAttempt, QuizHistory, ReviewSchedule } from "../types/index.js";
 
 async function ensureDirFor(filePath: string) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
@@ -94,4 +95,18 @@ export async function appendQuizAttempt(subjectId: string, attempt: QuizAttempt)
   attempts.push(attempt);
   await ensureDirFor(quizHistoryPath(subjectId));
   await fs.writeFile(quizHistoryPath(subjectId), JSON.stringify({ attempts }, null, 2), "utf-8");
+}
+
+export async function readReviewSchedule(subjectId: string): Promise<ReviewSchedule> {
+  try {
+    const raw = await fs.readFile(reviewSchedulePath(subjectId), "utf-8");
+    return JSON.parse(raw) as ReviewSchedule;
+  } catch {
+    return { entries: {} };
+  }
+}
+
+export async function writeReviewSchedule(subjectId: string, schedule: ReviewSchedule): Promise<void> {
+  await ensureDirFor(reviewSchedulePath(subjectId));
+  await fs.writeFile(reviewSchedulePath(subjectId), JSON.stringify(schedule, null, 2), "utf-8");
 }

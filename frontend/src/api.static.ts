@@ -1,5 +1,5 @@
 import type { ApiClient, StreamGenerate, StreamOpencodeLog } from "./apiClient";
-import type { NoteEntry, QuizAttemptResult, QuizQuestion, Topic } from "./types";
+import type { NoteEntry, QuizAttemptResult, QuizQuestion, ReviewSessionResult, Topic } from "./types";
 
 const DEMO_BASE = `${import.meta.env.BASE_URL}demo-data`;
 const UNAVAILABLE = "Indisponível na demo estática — requer o backend local.";
@@ -34,6 +34,8 @@ export const api: ApiClient = {
     };
     return result;
   },
+
+  completeReviewSession: () => Promise.reject<ReviewSessionResult>(new Error(UNAVAILABLE)),
 
   getInsights: (subject) => loadJson(`/insights/${subject}.json`),
 

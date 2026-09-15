@@ -7,6 +7,7 @@ import type {
   QuizAttemptResult,
   QuizQuestion,
   ResumoResponse,
+  ReviewSessionResult,
   SubjectSummary,
   Topic,
 } from "./types";
@@ -47,6 +48,12 @@ export const api: ApiClient = {
     request<QuizAttemptResult>(`/api/subjects/${subject}/topics/${topicId}/quiz/attempts`, {
       method: "POST",
       body: JSON.stringify({ questionId, selectedOptionId }),
+    }),
+
+  completeReviewSession: (subject: string, topicId: string) =>
+    request<ReviewSessionResult>(`/api/subjects/${subject}/topics/${topicId}/review/complete`, {
+      method: "POST",
+      body: JSON.stringify({}),
     }),
 
   getInsights: (subject: string) => request<InsightsResponse>(`/api/subjects/${subject}/insights`),
