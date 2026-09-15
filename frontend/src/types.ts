@@ -14,6 +14,9 @@ export interface Topic {
   acertoPct: number | null;
   status: TopicStatus;
   statusLabel: string;
+  nivelRevisao: number;
+  proximaRevisaoEm: string | null;
+  revisarAgora: boolean;
 }
 
 export interface SubjectSummary {
@@ -40,6 +43,12 @@ export interface QuizAttemptResult {
   correct: boolean;
   respostaCorreta: string;
   explicacao: string;
+}
+
+export interface ReviewSessionResult {
+  nivelRevisao: number;
+  proximaRevisaoEm: string;
+  revisarAgora: boolean;
 }
 
 export interface NoteEntry {
