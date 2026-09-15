@@ -37,7 +37,7 @@ export default function Quiz({ subject, topic, onSessionComplete }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [subject, topic]);
+  }, [subject, topic?.id]);
 
   useEffect(() => {
     if (!topic || questions.length === 0) return;
