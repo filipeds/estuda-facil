@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../api";
 import type { QuizQuestion, Topic } from "../types";
 
 interface Props {
   subject: string;
   topic: Topic | null;
+  onSessionComplete?: () => void;
 }
 
 interface AnsweredState {
@@ -14,12 +15,13 @@ interface AnsweredState {
   explicacao: string;
 }
 
-export default function Quiz({ subject, topic }: Props) {
+export default function Quiz({ subject, topic, onSessionComplete }: Props) {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, AnsweredState>>({});
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const sessionReportedRef = useRef(false);
 
   useEffect(() => {
     if (!topic) return;
@@ -27,6 +29,7 @@ export default function Quiz({ subject, topic }: Props) {
     setLoading(true);
     setAnswers({});
     setIndex(0);
+    sessionReportedRef.current = false;
     api
       .getQuiz(subject, topic.id)
       .then((qs) => !cancelled && setQuestions(qs))
@@ -35,6 +38,20 @@ export default function Quiz({ subject, topic }: Props) {
       cancelled = true;
     };
   }, [subject, topic]);
+
+  useEffect(() => {
+    if (!topic || questions.length === 0) return;
+    if (sessionReportedRef.current) return;
+    if (Object.keys(answers).length !== questions.length) return;
+    sessionReportedRef.current = true;
+    api
+      .completeReviewSession(subject, topic.id)
+      .then(() => onSessionComplete?.())
+      .catch(() => {
+        // Melhor esforço: se a chamada falhar (ex.: demo estática sem backend), a sessão
+        // simplesmente não avança de nível — não impede o usuário de ver o resultado do quiz.
+      });
+  }, [answers, questions, subject, topic, onSessionComplete]);
 
   if (!topic) return <p className="empty-state">Selecione um tópico para responder o quiz.</p>;
   if (loading) return <p className="empty-state">Carregando quiz...</p>;
