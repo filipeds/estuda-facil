@@ -6,7 +6,7 @@ import { extractPdfText } from "./pdfExtractor.js";
 import { subjectDir } from "./paths.js";
 import { readTopics, writeTopics, writeResumo, writeQuiz, writeInsights, readQuizHistory } from "./storage.js";
 import { slugify } from "./paths.js";
-import type { Topic, QuizQuestion, QuizAttempt } from "../types/index.js";
+import type { Topic, QuizQuestion, QuizAttempt, ReviewEntry } from "../types/index.js";
 
 const MAX_CHARS_PER_FILE = 15000;
 // The free/small models this app can fall back to sometimes return malformed JSON or leak
@@ -267,6 +267,28 @@ export function computeTopicStats(topics: Topic[], attempts: QuizAttempt[]) {
     const pct = topicAttempts.length ? Math.round((correct / topicAttempts.length) * 100) : null;
     return { id: t.id, nome: t.nome, tentativas: topicAttempts.length, acertoPct: pct };
   });
+}
+
+const REVIEW_LEVEL_INTERVALS_DAYS = [1, 3, 7, 14, 30];
+const REVIEW_MAX_LEVEL = REVIEW_LEVEL_INTERVALS_DAYS.length;
+const REVIEW_PASS_THRESHOLD = 0.7;
+
+/**
+ * Leitner simplificado: sessão com >=70% de acerto sobe um nível (até o máximo); abaixo
+ * disso volta para o nível 1. O nível pertence ao tópico, não às perguntas específicas —
+ * regenerar o quiz não afeta essa função nem o que ela leu antes de ser chamada.
+ */
+export function computeReviewUpdate(current: ReviewEntry | undefined, pctCorrect: number, now: Date): ReviewEntry {
+  const nivel =
+    pctCorrect >= REVIEW_PASS_THRESHOLD ? Math.min((current?.nivel ?? 0) + 1, REVIEW_MAX_LEVEL) : 1;
+  const intervalDays = REVIEW_LEVEL_INTERVALS_DAYS[nivel - 1];
+  const proximaRevisaoEm = new Date(now.getTime() + intervalDays * 24 * 60 * 60 * 1000).toISOString();
+  return { nivel, proximaRevisaoEm, ultimaSessaoEm: now.toISOString() };
+}
+
+export function isDue(entry: ReviewEntry | undefined, now: Date): boolean {
+  if (!entry) return true;
+  return new Date(entry.proximaRevisaoEm).getTime() <= now.getTime();
 }
 
 /** Counts case-insensitive occurrences of each topic's name across a set of source files. */
