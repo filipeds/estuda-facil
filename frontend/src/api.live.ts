@@ -53,6 +53,7 @@ export const api: ApiClient = {
   completeReviewSession: (subject: string, topicId: string) =>
     request<ReviewSessionResult>(`/api/subjects/${subject}/topics/${topicId}/review/complete`, {
       method: "POST",
+      body: JSON.stringify({}),
     }),
 
   getInsights: (subject: string) => request<InsightsResponse>(`/api/subjects/${subject}/insights`),
