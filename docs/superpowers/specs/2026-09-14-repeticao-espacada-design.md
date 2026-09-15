@@ -127,15 +127,23 @@ Tópico sem entrada: `nivelRevisao: 0`, `proximaRevisaoEm: null`,
    `timestamp`).
 4. Se o conjunto resultante não cobrir todas as perguntas atuais → `400`
    `{ message: "Sessão de quiz incompleta." }`.
-5. Calcula `pctCorrect = corretas / total` sobre esse conjunto deduplicado.
-6. `readReviewSchedule`, chama `computeReviewUpdate`, grava a entrada
+5. Calcula `pctCorrect = corretas / total` sobre esse conjunto deduplicado e
+   `latestAt` = o maior `timestamp` entre as tentativas deduplicadas (quando
+   a resposta mais recente desta sessão foi de fato enviada).
+6. `readReviewSchedule`. Se já existir uma entrada para o tópico e o
+   `ultimaSessaoEm` dela for `>=` `latestAt`, não há nada novo para
+   reportar: retorna a entrada existente sem chamar `computeReviewUpdate`
+   nem regravar o arquivo (`revisarAgora` calculado via `isDue` sobre a
+   entrada existente, já que o tempo pode ter passado desde a última
+   chamada). Caso contrário, chama `computeReviewUpdate`, grava a entrada
    atualizada via `writeReviewSchedule`, retorna
    `{ nivelRevisao, proximaRevisaoEm, revisarAgora: false }`.
 
 O endpoint recalcula a partir do histórico persistido em vez de confiar em
-dados enviados pelo cliente (mais robusto contra chamadas fora de ordem) e é
-idempotente: chamar de novo sem nenhuma tentativa nova reproduz o mesmo
-resultado.
+dados enviados pelo cliente (mais robusto contra chamadas fora de ordem). A
+guarda do passo 6 é o que garante idempotência de fato: chamar de novo sem
+nenhuma tentativa nova apenas devolve a entrada já gravada, sem avançar o
+nível outra vez.
 
 Regenerar o quiz (`pipelineRunner.ts`) não precisa de nenhuma mudança: como
 `review-schedule.json` é um arquivo separado, trocar as perguntas de um
@@ -172,8 +180,11 @@ nível pertence ao tópico, não às perguntas específicas).
   tópicos aparecem como `revisarAgora: true` (comportamento padrão, não é
   erro).
 - Múltiplas chamadas ao endpoint para a mesma sessão (ex.: usuário
-  responde a última pergunta duas vezes por algum motivo) → idempotente,
-  recalcula a partir do histórico e sobrescreve com o mesmo resultado.
+  responde a última pergunta duas vezes por algum motivo, ou o front
+  reenvia a chamada) → verdadeiro no-op: como nenhuma tentativa nova tem
+  `timestamp` mais recente que o `ultimaSessaoEm` já gravado, o endpoint
+  devolve a entrada existente sem recalcular nem regravar o arquivo (não
+  avança o nível de novo).
 
 ## Testes
 

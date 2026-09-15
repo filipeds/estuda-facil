@@ -186,9 +186,25 @@ export default async function subjectsRoutes(fastify: FastifyInstance) {
 
     const correct = [...latestByQuestion.values()].filter((a) => a.correct).length;
     const pctCorrect = correct / questions.length;
+    const latestAt = [...latestByQuestion.values()]
+      .map((a) => a.timestamp)
+      .reduce((max, ts) => (ts > max ? ts : max));
 
     const schedule = await readReviewSchedule(subject);
-    const updated = computeReviewUpdate(schedule.entries[topicId], pctCorrect, new Date());
+    const existing = schedule.entries[topicId];
+
+    // Idempotency guard: if we've already recorded a session at least as recent as the
+    // latest answer used in this computation, there's nothing new to report — return the
+    // existing entry as-is instead of recomputing/advancing the level again.
+    if (existing && existing.ultimaSessaoEm >= latestAt) {
+      return {
+        nivelRevisao: existing.nivel,
+        proximaRevisaoEm: existing.proximaRevisaoEm,
+        revisarAgora: isDue(existing, new Date()),
+      };
+    }
+
+    const updated = computeReviewUpdate(existing, pctCorrect, new Date());
     schedule.entries[topicId] = updated;
     await writeReviewSchedule(subject, schedule);
 
