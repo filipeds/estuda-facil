@@ -32,6 +32,7 @@ export const manifestPath = (subjectId: string) => path.join(estudaDir(subjectId
 export const topicosPath = (subjectId: string) => path.join(generatedDir(subjectId), "topicos.json");
 export const insightsPath = (subjectId: string) => path.join(generatedDir(subjectId), "insights.md");
 export const quizHistoryPath = (subjectId: string) => path.join(estudaDir(subjectId), "quiz-history.json");
+export const reviewSchedulePath = (subjectId: string) => path.join(estudaDir(subjectId), "review-schedule.json");
 export const opencodeLogPath = (subjectId: string) => path.join(estudaDir(subjectId), "opencode-log.json");
 
 export const resumoPath = (subjectId: string, topicId: string) =>
