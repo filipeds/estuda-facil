@@ -61,6 +61,7 @@ export default function Sidebar({
             >
               <span className={`dot ${t.status}`} />
               <span className="name">{t.nome}</span>
+              {t.revisarAgora && <span className="review-badge">Revisar</span>}
               <span className="pct">{t.acertoPct !== null ? `${t.acertoPct}%` : "—"}</span>
             </button>
           ))}
